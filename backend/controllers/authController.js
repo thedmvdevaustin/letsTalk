@@ -6,7 +6,7 @@ const register = expressAsyncHandler( async (req, res) => {
     const { firstName, lastName, email, password } = req.body
     const userExists = await User.findOne({email: email})
     if (userExists){
-        res.status(400).json({error: "User already exists"})
+        return res.status(400).json({error: "User already exists"})
     } else {
         const user = await User.create({
             firstName,
@@ -15,7 +15,12 @@ const register = expressAsyncHandler( async (req, res) => {
             password,
             profilePic: `https://avatar.iran.liara.run/username?username=${firstName}+${lastName}`
         })
-        res.status(201).json({_id: user._id, firstName, lastName, email, profilePic: user.profilePic })
+        if (user){
+            generateToken(user._id, res)
+            return res.status(201).json({_id: user._id, firstName, lastName, email, profilePic: user.profilePic })
+        } else {
+            return res.status(400).json({error: "user not created in db"})
+        }
     }
 })
 
@@ -23,11 +28,11 @@ const login = expressAsyncHandler( async(req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({email: email})
     if (!user){
-        res.status(400).json({error: "User does not exits"})
+        return res.status(400).json({error: "User does not exits"})
     } else {
         if (await user.matchPasswords(password)) {
             generateToken(user._id, res)
-            res.status(200).json({_id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, profilePic: user.profilePic})
+            return res.status(200).json({_id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, profilePic: user.profilePic})
         }
     }
     

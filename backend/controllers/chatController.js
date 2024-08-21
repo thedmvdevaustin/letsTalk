@@ -5,11 +5,13 @@ import expressAsyncHandler from 'express-async-handler'
 const getUserChats = expressAsyncHandler( async(req, res) => {
     //Logic: get all the chats were the user logged in is a member and 
     //sort them by the ones that was most recently updated
-    let chats = await Chat.find({
+    const chats = await Chat.find({
         members: { $all: [req.user._id]}
-    }).sort({ updatedAt: -1})
-    console.log(chats)
-    res.status(200).json(chats)
+    }).sort({ updatedAt: -1}).populate("messages").populate("members")
+    if (!chats){
+        return res.status(400).json("chats do not exist")
+    }
+    return res.status(200).json(chats)
 })
 
 const createChat = expressAsyncHandler( async(req, res) => {
@@ -18,30 +20,28 @@ const createChat = expressAsyncHandler( async(req, res) => {
     const { members, name } = req.body
     //remember members is being passed in as a string in out postman ex
     if (!members || !name){
-        res.status(400).json("bad request, missing information")
+        return res.status(400).json("bad request, missing information")
     }
     let chat = { members, name }
     if (members.length>2) {
         chat = { ...chat, admin: req.user._id, isGroupChat: true }
         await Chat.create(chat)
-        res.status(201).json(chat)
+        return res.status(201).json(chat)
     } else if(members.length===2) {
         await Chat.create(chat)
-        res.status(201).json(chat)
+        return res.status(201).json(chat)
     } else {
-        res.status(400).json("failed to create chat")
+        return res.status(400).json("failed to create chat")
     }
 })
 
 const accessSpecificChat = expressAsyncHandler( async(req, res) => {
     const chat = await Chat.findOne({_id: req.params.id})
     if (!chat){
-        res.status(400).json("chat does not exist")
+        return res.status(400).json("chat does not exist")
     }
     const chatMessages = await chat.populate('messages')
-    console.log(chatMessages)
-    
-    res.status(200).json(chatMessages)
+    return res.status(200).json(chatMessages)
     //Finish this once you create some messages for a chat
 })
 

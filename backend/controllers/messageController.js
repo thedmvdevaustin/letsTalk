@@ -8,16 +8,26 @@ const sendMessage = expressAsyncHandler( async(req, res) => {
     //we don't have to validate chat since it already was in access chat;
     //update the chat that we are sending a message to by appending the
     //new message we created 
-    if (!message) res.status(400).json("bad request, missing information")
-    const newMessage = await Message.create({ message, sender: req.user._id, chat: req.params.id})
-    if (!newMessage){
-        res.status(400).json("failed to store message in db")
+    if (!message) {
+        return res.status(400).json({error: "bad request, missing information"})
+    } else {
+        const newMessage = await Message.create({ message, sender: req.user._id, chat: req.params.id})
+        if (!newMessage){
+            return res.status(400).json({error: "failed to store message in db"})
+        } else {
+            const chat = await Chat.updateOne(
+                { _id: req.params.id},
+                { $push: { messages: newMessage}}
+            )
+            if (!chat){
+                return res.status(400).json({error: "failed to store message in chat in db"})
+            } else {
+                return res.status(200).json(newMessage)
+
+            }
+        }
+
     }
-    await Chat.updateOne(
-        { _id: req.params.id},
-        { $push: { messages: newMessage}}
-    )
-    res.status(200).json("message sent")
 })
 
 export { sendMessage }

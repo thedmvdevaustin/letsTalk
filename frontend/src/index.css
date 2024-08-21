@@ -20,6 +20,7 @@
     top: 10%;
     left: 10%;
     animation: 4s linear infinite;
+    pointer-events: none;
   }
   .bubble .dot {
     height: 10px;
@@ -120,8 +121,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 
 /* LOGIN SCREEN AND REGISTER SCREEN STYLE */
@@ -239,15 +240,331 @@
     transform: scale(1)
   }
 
-/* LOGIN AND REGISTER SCREEN STYLE FOR 320px-750px */
-@media screen and (max-width: 600px){
-    .login-container {
-        width: 90%
-    }
+
+
+/* DASHBOARD SCREEN STYLE */
+
+.dashboard-container {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .1);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  width: 80%;
+  height: 90%;
+  display: grid;
+  grid-template-columns: 35% 65%;
+  grid-template-rows: repeat(12, minmax(40px, 50px));
+  row-gap: 10px;
 }
-@media screen and (min-width: 1024px){
-    .login-container {
-        width: 40%
-    }
+/* LETS TALK, IMG AND ADD GROUP STYLE  */
+.lets-talk {
+  grid-row: 1 / 3;
+  grid-column: 1 / 2;
+  display: flex;
+  justify-content: space-around;
+  align-items: center
 }
 
+.lets-talk > img {
+  width: 40px;
+  height: 40px;
+}
+
+.lets-talk > span { 
+  font-size: 1.4rem;
+  color: white;
+}
+
+.lets-talk > svg {
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* SEARCH FORM STYLE  */
+.searchForm-container {
+  height: 100%;
+  grid-row: 3 / 4;
+  grid-column: 1 / 2;
+  align-self: center;
+  justify-self: center;
+}
+
+.searchForm {
+  height: 80%;
+}
+
+.searchForm > input {
+  padding-left: .5rem;
+  color: white;
+  height: 100%;
+  border-radius: 1rem;
+  background-color: rgb(41, 51, 63);
+  border: none;
+}
+.searchForm > input::placeholder {
+  color: white;
+}
+
+.searchForm > input:active {
+  outline: none;
+  border: none;
+}
+
+.searchForm > button {
+  border: none;
+  border-radius: 1rem;
+  padding: .5rem;
+  background-color: rgb(16, 164, 227);
+  color: white;
+}
+
+
+
+/* CONTACTS STYLE  */
+.contacts-container {
+  grid-row: 4 / 12;
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.contacts-loading-container {
+  grid-row: 7 / 8;
+  grid-column: 2 / 3;
+  display: flex;
+  justify-content: center;
+}
+
+.contacts-error-container {
+  grid-row: 5 / 10;
+  grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.contacts-error-container > svg{
+  font-size: 5rem;
+}
+
+.contacts-error-container > p {
+  font-size: 1.2rem;
+}
+
+.contacts-container > a {
+  padding-left: 1.1rem;
+  text-decoration: none;
+  height: 15%;
+  border-bottom: rgb(99, 105, 108, 0.2); 
+}
+
+.active {
+  background-color: rgba(62,130,243, .5);
+}
+
+.contact {
+  display: flex;
+  gap: 5%;
+  align-items: center;
+  height: 100%;
+}
+
+.contact:hover {
+  opacity: .6;
+}
+
+.contact > img {
+  width: 30px;
+  height: 30px;
+}
+
+.contact > span {
+  color: white;
+}
+/* LOGOUT STYLE  */
+.logout {
+  grid-row: 13 / 14;
+  grid-column: 1 / 2;
+}
+
+.logout > button{
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* NO-CHAT-SELECTED-DISPLAY STYLE  */
+.noChatSelectedDisplay {
+  grid-row: 7 / 9;
+  grid-column: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.noChatSelectedDisplay > p, .noChatSelectedDisplay > svg {
+  color: white;
+  font-size: 1.4rem;
+}
+
+.noChatSelectedDisplay > p > svg {
+  color: yellow;
+}
+
+.noChatSelectedDisplay > svg {
+  color: rgb(16, 161, 252);
+}
+
+/* CHAT STYLE  */
+
+.chat-container {
+  grid-row: 1 / 14;
+  grid-column: 2 / 3;
+  display: grid;
+  grid-template-rows: repeat(autofill, 40px);
+  grid-auto-rows: repeat(autofill, minmax(15px, 40px));
+  border-left: 1px solid rgb(100, 116, 139);
+  scroll-behavior: smooth;
+  overflow: auto
+}
+
+
+.chatname {
+  background-color: rgb(100,116,139, 0.4);
+  padding: .5rem;
+  grid-row: 1 / 2;
+  
+}
+
+.chat-messages {
+  width: 96%;
+  grid-row: 2 / 12;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+}
+
+.senderMessage > img, .receiverMessage > img {
+  width: 30px;
+  height: 30px;
+}
+
+.senderMessage, .receiverMessage {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 10% 2%;
+  gap: 2%;
+  position: relative;
+  align-items: flex-end;
+}
+
+.receiverMessage {
+  flex-direction: row;
+}
+
+.senderMessage > p, .receiverMessage > p {
+  background-color: rgb(62,130,243);
+  padding: .5rem;
+  color: white;
+  border-radius: .5rem;
+  position: relative;
+}
+
+.senderMessage > p::before, .receiverMessage > p::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-left: 15px solid rgb(62,130,243);
+  position: absolute;
+  right: -13px;
+  bottom: -5px;
+  transform: rotate(30deg);
+}
+
+.receiverMessage > p {
+  background-color: rgb(40,51,63);
+}
+.receiverMessage > p::before {
+  border: 5px solid transparent;
+  border-right: 15px solid rgb(40,51,63);
+  right: 0;
+  left: -13px;
+  transform: rotate(-30deg)
+}
+
+.senderMessage > span {
+  position: absolute;
+  color: rgba(99,105,108, 0.8);
+  bottom: -13px;
+  right: 37px;
+  font-size: .6rem;
+}
+
+.receiverMessage > span {
+  position: absolute;
+  color: rgba(99,105,108, 0.8);
+  bottom: -13px;
+  left: 37px;
+  font-size: .6rem;
+}
+
+.sendMessage-form {
+  overflow: hidden;
+  position: relative;
+  height: 30px;
+  grid-row: 13 / 14;
+  align-self: flex-end;
+}
+
+.sendMessage-form > input {
+  height: 30px;
+  width: 100%;
+  background-color: rgba(99,105,108, 0.2);
+  border: none;
+  outline: none;
+  color: white;
+  padding: 0 0 0 .4rem;
+  overflow-wrap:break-word;
+} 
+.sendMessage-form > input::placeholder {
+  color: white;
+  padding: 0 .2rem;
+}
+.sendMessage-form > input:active {
+  border: none;
+  outline: none;
+}
+.sendMessage-form > button {
+  color: rgb(62,130,243);
+  background: transparent;
+  border: none;
+  outline: none;
+  position: absolute;
+  font-size: 1.3rem;
+  right: 0;
+  top: 6px;
+}
+
+/* LOGIN AND REGISTER SCREEN STYLE FOR 320px-750px */
+@media screen and (max-width: 600px){
+  .login-container {
+      width: 90%
+  }
+}
+@media screen and (min-width: 1024px){
+  .login-container {
+      width: 40%
+  }
+  .dashboard-container{
+    grid-auto-rows: repeat(autofill, 40px);
+  }
+  .chat-container {
+
+  }
+}

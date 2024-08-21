@@ -20,7 +20,7 @@ const searchUsers = expressAsyncHandler( async(req, res) => {
     console.log(name)
     const results = await User.find(name).find({ _id: { $ne: req.user._id}})
 
-    res.status(200).json(results)
+    return res.status(200).json(results)
 })
 
 export { searchUsers }
