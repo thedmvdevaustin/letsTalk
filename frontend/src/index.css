@@ -484,18 +484,45 @@ input:focus {
 .chat-container {
   grid-row: 1 / 14;
   grid-column: 2 / 3;
+  /* STOP HERE TO GO BACK TO EVERYTHING FROM BEFORE  */
   display: grid;
+  grid-template-rows: min-content minmax(60%, 90%) min-content;
+  position: relative;
   border-left: 1px solid rgb(100, 116, 139);
-  scroll-behavior: smooth;
   overflow: auto
 }
+
+.chat-container::-webkit-scrollbar {
+  display: none;
+}
+
 
 
 .chatname {
   background-color: rgb(100,116,139, 0.4);
   padding: .5rem;
   grid-row: 1 / 2;
-  
+  display: flex;
+  justify-content: space-between;
+  height: max-content;
+  position: sticky;
+  top: 0;
+  width: 100%;
+}
+
+.chatname > span + span {
+  font-size: 1.2rem;
+  color: white;
+  position: relative;
+  right: 15px;
+}
+
+.chatname > span + span:hover {
+  opacity: .8;
+}
+
+.chatName > span + span:active{
+  opacity: .6;
 }
 
 .noMessageDisplay-container {
@@ -516,7 +543,6 @@ input:focus {
 }
 
 .chat-messages {
-  width: 96%;
   grid-row: 2 / 12;
 }
 
@@ -586,11 +612,8 @@ input:focus {
 }
 
 .sendMessage-form {
-  overflow: hidden;
-  position: relative;
-  height: 30px;
-  grid-row: 13 / 14;
-  align-self: flex-end;
+  position: sticky;
+  bottom: 0;
 }
 
 .sendMessage-form > input {

@@ -7,6 +7,8 @@ import { IoMdHand, IoIosSend } from 'react-icons/io'
 import SyncLoader from 'react-spinners/SyncLoader'
 import { toast } from 'react-toastify'
 import { useSocket } from '../Context/SocketContext'
+import { IoIosInformationCircleOutline } from "react-icons/io"
+import { IoIosArrowDropdown } from "react-icons/io";
 
 const Chat = () => {
     const socket = useSocket()
@@ -23,12 +25,17 @@ const Chat = () => {
     const [sendMessage, { isLoading, isSuccess }] = usePostMessageMutation()
     const [chatMessages, setChatMessages] = useState([])
     const [postMessage, setPostMessage] = useState("")
+    const [infoPageToggle, setInfoPageToggle] = useState(false)
     useEffect(() => {
         setChatMessages(chat?.messages)
     }, [chat?.messages])
 
     const handleMessage = e => {
         setPostMessage(e.target.value)
+    }
+
+    const handleInfoPageToggle = () => {
+        setInfoPageToggle(!infoPageToggle)
     }
     const handleSendMessage = async e => {
         e.preventDefault()
@@ -65,12 +72,14 @@ const Chat = () => {
             setChatMessages([...chatMessages, newMessage])
         })
     }, [handleSendMessage])
+
     
     if (chatMessages?.length===0) {
         return (
             <section className="chat-container">
                 <div className="chatname">
-                    <p>Chat: {chat?.name}</p>
+                    <span>Chat: {chat?.name}</span>
+                    <span><IoIosInformationCircleOutline /></span>
                 </div>
                 <section className="noMessageDisplay-container">
                     <p>No messages yet!</p>
@@ -113,19 +122,39 @@ const Chat = () => {
         return (
             <section className="chat-container">
                 <div className="chatname">
-                    <p>Chat: {chat?.name}</p>
+                    <span>Chat: {chat?.name}</span>
+                    <span onClick={handleInfoPageToggle}><IoIosInformationCircleOutline /></span>
                 </div>
-                <div className="chat-messages">
-                    {chatMessages && chatMessages.map(message => <div key={message._id} className={userId===message.sender ? "senderMessage" : "receiverMessage"}>
-                        <img src={chat?.members.find(member => member._id===message.sender)?.profilePic}/>
-                        <p>{message.message}</p>
-                        <span>delivered</span>
-                    </div>)}
+                {infoPageToggle && 
+                <div className="infoPage-container">
+                    <div className="members">
+                        <h4>{chat.members.length} People </h4>
+                        {chat.members.map((member, index) => {
+                            if (index===chat.members.length-1){
+                                return <span key={member._id}>{member.firstName}</span>
+                            } else {
+                                return <span key={member._id}>{member.firstName}, </span>
+                            }
+                        })}
+                    </div>
+                    <span><IoIosArrowDropdown /></span>
                 </div>
-                <form onSubmit={handleSendMessage} className="sendMessage-form">
-                    <input required placeholder="Send a Message" type="text" onChange={handleMessage} value={postMessage} />
-                    <button type="submit"><IoIosSend /></button>
-                </form>
+                }
+                {!infoPageToggle &&
+                <>
+                    <div className="chat-messages">
+                        {chatMessages && chatMessages.map(message => <div key={message._id} className={userId===message.sender ? "senderMessage" : "receiverMessage"}>
+                            <img src={chat?.members.find(member => member._id===message.sender)?.profilePic} alt="#"/>
+                            <p>{message.message}</p>
+                            <span>delivered</span>
+                        </div>)}
+                    </div>
+                    <form onSubmit={handleSendMessage} className="sendMessage-form">
+                        <input required placeholder="Send a Message" type="text" onChange={handleMessage} value={postMessage} />
+                        <button type="submit"><IoIosSend /></button>
+                    </form>
+                </>
+                }
             </section>
         )
     }
