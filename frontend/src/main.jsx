@@ -10,6 +10,7 @@ import DashboardScreen from './Screens/DashboardScreen.jsx'
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom'
 import NoChatSelectedDisplay from './Components/NoChatSelectedDisplay.jsx'
 import Chat from './Components/Chat.jsx'
+import { SocketProvider } from './Context/SocketContext.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,9 @@ const router = createBrowserRouter(
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <SocketProvider>
+        <RouterProvider router={router} />
+      </SocketProvider>
     </Provider>
   </StrictMode>,
 )

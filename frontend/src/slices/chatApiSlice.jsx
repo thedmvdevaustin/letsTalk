@@ -27,7 +27,9 @@ export const chatApiSlice = apiSlice.injectEndpoints({
         }),
         createChat: builder.mutation({
             query: (data) => ({
-                url: `${CHAT_URL}/create`
+                url: `${CHAT_URL}/create`,
+                method: 'POST',
+                body: data
             }),
             invalidatesTags: ['Chats']
         })

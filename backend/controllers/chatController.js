@@ -35,6 +35,49 @@ const createChat = expressAsyncHandler( async(req, res) => {
     }
 })
 
+const addMembersToChat = expressAsyncHandler( async(req, res) => {
+    const { members } = req.body
+    if (!members) {
+        return res.status(400).json("bad request, missing information")
+    } else {
+        await Chat.findOneAndUpdate(
+            {_id: req.params.id},
+            { $push: { members: {$each: [...members]}}}
+        )
+        return res.status(200).json("member added")
+    }
+})
+
+const changeNameOfChat = expressAsyncHandler( async(req, res) => {
+    const { name } = req.body 
+    if (!name){
+        return res.status(400).json("bad request, missing information")
+    } else {
+        await Chat.findOneAndUpdate(
+            {_id: req.params.id},
+            { name }
+        )
+        return res.status(200).json("chat renamed")
+    }
+})
+
+const removeMemberFromChat = expressAsyncHandler( async(req, res) => {
+    const { member } = req.body
+    if (!member){
+        return res.status(400).json("bad request, missing information")
+    }
+    const user = await User.findById(member)
+    if (!user){
+        return res.status(400).json("User not found")
+    } else {
+        await Chat.findOneAndUpdate(
+            {_id: req.params.id},
+            { $pull: { members: { $in: [member] } } }
+        )
+        return res.status(200).json("member removed")
+    }
+})
+
 const accessSpecificChat = expressAsyncHandler( async(req, res) => {
     const chat = await Chat.findOne({_id: req.params.id})
     if (!chat){
@@ -45,7 +88,8 @@ const accessSpecificChat = expressAsyncHandler( async(req, res) => {
     //Finish this once you create some messages for a chat
 })
 
-export { getUserChats, createChat, accessSpecificChat}
+
+export { getUserChats, createChat, accessSpecificChat, addMembersToChat, changeNameOfChat, removeMemberFromChat}
 
 /*
 1. create a chat; WORKS

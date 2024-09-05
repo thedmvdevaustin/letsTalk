@@ -1,7 +1,23 @@
+
 * {
     margin: 0;
     padding: 0;
   }
+
+img {
+  width: 30px;
+  height: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+input:focus {
+  border: none;
+  outline: none;
+}
 /* BACKGROUND ANIMATION */
   .wrapper {
     height: 100%;
@@ -154,6 +170,10 @@
     padding: 0 .2rem;
     border-radius: 50%
   }
+
+  .inputs-container > div {
+    cursor: pointer;
+  }
   .input-container > svg {
     position: absolute;
     right: 0;
@@ -210,7 +230,6 @@
   }
   
   .toRegister > p > a, .password-container > a {
-    text-decoration: none;
     color: white;
     font-weight: bold;
   }
@@ -275,50 +294,94 @@
   color: white;
 }
 
-.lets-talk > svg {
+.btn-modal {
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+}
+
+.btn-modal > svg {
   color: white;
   font-size: 1.2rem;
 }
 
 /* SEARCH FORM STYLE  */
 .searchForm-container {
+  width: 100%;
   height: 100%;
   grid-row: 3 / 4;
   grid-column: 1 / 2;
-  align-self: center;
-  justify-self: center;
+  position: relative;  
 }
 
 .searchForm {
-  height: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .searchForm > input {
   padding-left: .5rem;
   color: white;
-  height: 100%;
+  height: 80%;
+  width: 90%;
   border-radius: 1rem;
   background-color: rgb(41, 51, 63);
   border: none;
+  align-self: flex-end;
 }
 .searchForm > input::placeholder {
+  padding-left: .5rem;
   color: white;
 }
 
-.searchForm > input:active {
+.searchForm > input:focus {
   outline: none;
   border: none;
 }
 
-.searchForm > button {
-  border: none;
-  border-radius: 1rem;
-  padding: .5rem;
-  background-color: rgb(16, 164, 227);
+.searchForm > svg {
+  position: absolute;
   color: white;
+  font-size: 1.2rem;
+  top: 13px;
+  right: 17px;
 }
 
+.inputs-container {
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+  overflow: hidden;
+  overflow-y: auto;
+  width: 100%;
+  grid-row: 4 / 9;
+  grid-column: 1 / 2;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
+  height: fit-content;
+}
 
+.inputs-container::-webkit-scrollbar {
+  display: none
+}
+
+.inputs-container > div {
+  display: flex;
+  padding-left: .5rem;
+  align-items: center;
+  gap: 5%;
+}
+
+.inputs-container > div:hover {
+  background-color: rgb(99, 105, 108, 0.2)
+}
+
+.close-button {
+  cursor: pointer;
+}
 
 /* CONTACTS STYLE  */
 .contacts-container {
@@ -326,7 +389,11 @@
   grid-column: 1 / 2;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: scroll;
+}
+
+.contacts-container::-webkit-scrollbar {
+  display: none;
 }
 
 .contacts-loading-container {
@@ -356,7 +423,6 @@
 
 .contacts-container > a {
   padding-left: 1.1rem;
-  text-decoration: none;
   height: 15%;
   border-bottom: rgb(99, 105, 108, 0.2); 
 }
@@ -374,11 +440,6 @@
 
 .contact:hover {
   opacity: .6;
-}
-
-.contact > img {
-  width: 30px;
-  height: 30px;
 }
 
 .contact > span {
@@ -399,8 +460,8 @@
 
 /* NO-CHAT-SELECTED-DISPLAY STYLE  */
 .noChatSelectedDisplay {
-  grid-row: 7 / 9;
-  grid-column: 3 / 4;
+  grid-row: 5 / 7;
+  grid-column: 2/3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -424,8 +485,6 @@
   grid-row: 1 / 14;
   grid-column: 2 / 3;
   display: grid;
-  grid-template-rows: repeat(autofill, 40px);
-  grid-auto-rows: repeat(autofill, minmax(15px, 40px));
   border-left: 1px solid rgb(100, 116, 139);
   scroll-behavior: smooth;
   overflow: auto
@@ -439,6 +498,23 @@
   
 }
 
+.noMessageDisplay-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  grid-row: 2 / 12
+}
+
+.noMessageDisplay-container  > p, .noMessageDisplay-container  > svg {
+  color: white;
+  font-size: 1.4rem;
+}
+
+.noMessageDisplay-container  > p > svg {
+  color: yellow;
+}
+
 .chat-messages {
   width: 96%;
   grid-row: 2 / 12;
@@ -447,11 +523,6 @@
 .loader {
   display: flex;
   justify-content: center;
-}
-
-.senderMessage > img, .receiverMessage > img {
-  width: 30px;
-  height: 30px;
 }
 
 .senderMessage, .receiverMessage {
@@ -551,10 +622,134 @@
   top: 6px;
 }
 
+.hidden {
+  display: none;
+}
+
+/* MODAL STYLE  */
+
+.modal {
+  width: 100%;
+  height: 100%;
+  grid-row: 3 / 8;
+  grid-column: 1 / 3;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10%;
+  background: transparent;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+  height: 100%;
+  border-radius: 3px;
+  position: relative;
+}
+
+.modal-content > h2 {
+  margin: 0;
+}
+
+.modal-content > form > input {
+  color: white;
+  padding: .8rem 0;
+  width: 96%;
+  border-radius: 1rem;
+  background-color: rgb(41, 51, 63);
+  border: none;
+  padding-left: .5rem;
+}
+
+.modal-content > form > input::placeholder {
+  color: white;
+  padding-left: .5rem;
+}
+
+.modal-content > form > .searchForm-container > .searchForm > svg {
+  right: 18px;
+  top: 30px;
+}
+.modal-content > form > .searchForm-container > .searchForm > input {
+  /* padding-left: 0; */
+  width: 100%;
+  margin-right: .9rem;
+  height: 0;
+  padding: 1.3rem 0;
+  align-self: center;
+}
+
+.close-modal {
+  border: none;
+  background-color: transparent;
+  color: red;
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  font-size: 1.2rem;
+}
+
+.createGroup-btn {
+  position: absolute;
+  bottom: 2%;
+  left: 40%;
+  padding: .5rem;
+  color: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+  border: none;
+  background: none;
+}
+
+.createGroup-btn:hover {
+  cursor: pointer;
+  opacity: .75;
+}
+
+.members-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  gap: 5%;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  padding: .2rem 1rem;
+  gap: 5%;
+  background-color:rgb(16, 161, 252);
+  border-radius: 1rem;
+}
+.member > img {
+  width: 20px;
+  height: 20px;
+}
+
+.member > span {
+  color: white;
+}
+
+.member > button {
+  background: none;
+  border: none;
+  color: white;
+}
+
+.member > button > svg {
+  font-size: 1.2rem;
+  position: relative;
+  top: 3px;
+}
+
 /* LOGIN AND REGISTER SCREEN STYLE FOR 320px-750px */
 @media screen and (max-width: 600px){
   .login-container {
       width: 90%
+  }
+}
+@media screen and (min-width: 750px){
+  .searchForm{
+    justify-content: center;
   }
 }
 @media screen and (min-width: 1024px){
@@ -563,8 +758,5 @@
   }
   .dashboard-container{
     grid-auto-rows: repeat(autofill, 40px);
-  }
-  .chat-container {
-
   }
 }
