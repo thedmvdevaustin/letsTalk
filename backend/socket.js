@@ -28,7 +28,6 @@ io.on("connection", (socket) => {
             event to send the data to the sender and receiver; this is
             still more optimal than creating a room and sending data that
             way if you are only sending data to a single socket */ 
-            console.log(data) 
             io.to(users[data.receiverId]).emit("new_message", data.message)
             socket.emit("messageForSender", data.message)
         }
@@ -59,3 +58,13 @@ io.on("connection", (socket) => {
 })
 
 export { server, app, io}
+
+// what do we need for the notifications: 
+// we need a way to check if the user is in 
+// the room that gets a message; if they are 
+// then they get no notifications, if they aren't 
+// they get a noti; 
+
+/* there will be 2 separate logics for notis; 
+1. for individual messages, we check to see if 
+ */

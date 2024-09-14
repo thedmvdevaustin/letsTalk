@@ -30,7 +30,7 @@ const SearchForm = () => {
     //if you want to pass in a value other than the event obj 
         try {
             const chat = await createChat(newChat)
-            handleClose()
+            setSearch("")
         } catch(err){
             console.log(err)
             //think of an error notification to give to toast

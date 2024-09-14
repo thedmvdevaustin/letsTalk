@@ -2,6 +2,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
   }
 
 img {
@@ -153,7 +154,6 @@ input:focus {
   
   h2 {
     color: white;
-    font-family: sans-serif;
     text-align: center;
     font-size: 2rem;
     margin-top: 2rem;
@@ -524,6 +524,179 @@ input:focus {
 .chatName > span + span:active{
   opacity: .6;
 }
+
+.infoPage-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+}
+
+.infoPage-chatname {
+  display: flex;
+  align-items: center;
+  gap: 10%;
+
+}
+
+.infoPage-chatname > span {
+  font-size: 1.2rem;
+  color: rgb(16, 161, 252);
+  cursor: pointer;
+}
+
+.infoPage-chatname > span:hover {
+  opacity: .75;
+}
+.infoPage-chatname > span:active {
+  opacity: .4;
+}
+
+.infoPage-chatname > h4 {
+  font-size: 2rem;
+  color: white;
+}
+
+.editChatName-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.editChatName-container > input {
+  min-width: 50px;
+  max-width: 250px;
+  border: none;
+  font-size: 2rem;
+  background: transparent;
+  color: white;
+  font-weight: bold;
+}
+
+.editChatName-container > span {
+  position: absolute;
+  right: 0;
+  top: 8px;
+  color: white;
+}
+
+.editChatName-btns {
+  display: flex;
+  gap: 50%;
+  color: rgb(16, 161, 252)
+}
+
+.editChatName-btns > span[data-tool-tip]  {
+  position: relative;
+}
+
+.editChatName-btns > span[data-tool-tip]::after {
+  content: attr(data-tool-tip);
+  background: rgb(27,35,41);
+  color: white;
+  padding: .3rem;
+  font-size: .7rem;
+  border-radius: .2rem;
+  font-weight: bold;
+  position: absolute;
+  display: block;
+  left: -43px;
+  white-space: nowrap;
+  bottom: -150%;
+  transform: scale(0);
+  transition: transform ease-out 150ms;
+}
+
+.editChatName-btns > span[data-tool-tip]:hover::after {
+  transform: scale(1)
+}
+
+/* 
+.editChatName-container > input::placeholder {
+  
+} */
+
+.infoPage-dropdown-container {
+  width: 70%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+  padding: 0.5rem 1rem;
+
+}
+
+.infoPage-dropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.members > h4, .members > span, .infoPage-dropdown > span {
+  color: white;
+}
+
+
+.infoPage-dropdown > span {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.infoPage-dropdown > span:hover {
+  opacity: .75;
+}
+
+.infoPage-dropdown > span:active {
+  opacity: .4;
+}
+
+.infoPage-dropdown-container > .searchForm-container {
+  height: 17%;
+}
+
+.chatMembers {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  align-items: center;
+  border-bottom: 1px solid rgb(149, 147, 149);
+  color: white;
+}
+
+.chatMembers > div {
+  display: flex;
+  gap: 5%;
+}
+
+.chatMembers > span {
+  color: red;
+  cursor: pointer
+}
+
+.addContact-form {
+  display: flex;
+  align-items: center;
+  gap: 5%;
+  padding: 1rem;
+  cursor: pointer
+}
+
+.addContact-form:hover, .chatMembers > span:hover {
+  opacity: .75;
+  
+}
+
+.addContact-form:active, .chatMembers > span:active {
+  opacity: .4;
+}
+
+.addContact-form > span {
+  color: rgb(16, 161, 252);
+}
+
+.addContact-form > span > svg {
+  font-size: 1.2rem;
+}
+
+
 
 .noMessageDisplay-container {
   display: flex;

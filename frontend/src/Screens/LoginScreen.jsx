@@ -39,7 +39,7 @@ const LoginScreen = () => {
             navigate('/dashboard')
             toast.success('login successful, welcome to letsTalk!')
         } catch(err) {
-            toast.err("Unable to login, please refresh the page and try again!")
+            toast.error("Unable to login, please refresh the page and try again!")
             console.error(err.message)
         }
     }

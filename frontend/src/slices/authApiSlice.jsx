@@ -27,7 +27,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: user
             }),
-            invalidatesTags: ['Conversations', 'Messages']
+            invalidatesTags: ['Chats', 'Messages']
         }),
         logout: builder.mutation({
             query: () => ({

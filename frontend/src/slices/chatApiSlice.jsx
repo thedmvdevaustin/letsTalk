@@ -32,11 +32,35 @@ export const chatApiSlice = apiSlice.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ['Chats']
+        }),
+        addMember: builder.mutation({
+            query: (data) => ({
+                url: `${CHAT_URL}/${data.id}/add`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Chats']
+        }),
+        removeMember: builder.mutation({
+            query: (data) => ({
+                url: `${CHAT_URL}/${data.id}/remove`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Chats']
+        }),
+        renameChat: builder.mutation({
+            query: (data) => ({
+                url: `${CHAT_URL}/${data.id}/rename`,
+                method: 'PUT',
+                body: data
+            }),
+            invalidatesTags: ['Chats']
         })
     })
 })
 
-export const { useGetChatsQuery, useAccessChatQuery, useCreateChatMutation } = chatApiSlice
+export const { useGetChatsQuery, useAccessChatQuery, useCreateChatMutation, useAddMemberMutation, useRemoveMemberMutation, useRenameChatMutation } = chatApiSlice
 
 export const getChatsData = chatApiSlice.endpoints.getChats.select()
 

@@ -5,13 +5,33 @@ import expressAsyncHandler from 'express-async-handler'
 const getUserChats = expressAsyncHandler( async(req, res) => {
     //Logic: get all the chats were the user logged in is a member and 
     //sort them by the ones that was most recently updated
+
+    //Error: if a user that you haven't looked up sends you 
+    //a message then it will pop up in your chats as your name
+    //when you want it to pop up as their name instead
     const chats = await Chat.find({
         members: { $all: [req.user._id]}
     }).sort({ updatedAt: -1}).populate("messages").populate("members")
     if (!chats){
         return res.status(400).json("chats do not exist")
     }
-    return res.status(200).json(chats)
+    //logic: for error comment above; checks to see if user sent
+    //you a message, in which they created a chat; so instead of 
+    //you seeing your own name as a contact the chats will be 
+    //called and you will replace that chatName with there chat 
+    //name before you send all the chats as json
+    let allChats = []
+    chats.map(chat => {
+        if (!chat.isGroupChat && chat.name===`${req.user.firstName} ${req.user.lastName}`) {
+            if (chat.name!==`${chat.members[0].firstName} ${chat.members[0].lastName}`) {
+                chat.name = `${chat.members[0].firstName} ${chat.members[0].lastName}`
+            } else {
+                chat.name = `${chat.members[1].firstName} ${chat.members[1].lastName}`
+            }
+        }
+        allChats.push(chat)
+    })
+    return res.status(200).json(allChats)
 })
 
 const createChat = expressAsyncHandler( async(req, res) => {
@@ -53,11 +73,11 @@ const changeNameOfChat = expressAsyncHandler( async(req, res) => {
     if (!name){
         return res.status(400).json("bad request, missing information")
     } else {
-        await Chat.findOneAndUpdate(
+        const chat = await Chat.findOneAndUpdate(
             {_id: req.params.id},
             { name }
         )
-        return res.status(200).json("chat renamed")
+        return res.status(200).json({...chat, name })
     }
 })
 
