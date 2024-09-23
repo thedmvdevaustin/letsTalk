@@ -8,7 +8,6 @@ const Contacts = () => {
     const [contacts, setContacts] = useState([])
     const { data, isLoading, isSuccess, isError } = useGetChatsQuery()
     const allChats = useSelector(selectChats)
-    const tempUser = useSelector(state => state.newUser.newUser)
     useEffect(() => {
         setContacts(allChats)
     }, [allChats])

@@ -11,7 +11,14 @@ const getUserChats = expressAsyncHandler( async(req, res) => {
     //when you want it to pop up as their name instead
     const chats = await Chat.find({
         members: { $all: [req.user._id]}
-    }).sort({ updatedAt: -1}).populate("messages").populate("members")
+    }).sort({ updatedAt: -1}).populate("members").populate({
+        path: 'messages',
+        populate: {
+            path: 'sender',
+            model: 'User',
+            select: "-password"
+        }
+    })
     if (!chats){
         return res.status(400).json("chats do not exist")
     }

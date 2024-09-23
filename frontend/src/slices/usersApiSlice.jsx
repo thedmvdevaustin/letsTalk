@@ -13,6 +13,11 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 //the frontend and backend
                 return `${USERS_URL}/search?name=${user.toString()}`
             }
+        }),
+        accessOneUser: builder.query({
+            query: (data) => ({
+                url: `${USERS_URL}/${data.id}`
+            })
         })
     })
 })
@@ -21,4 +26,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 // an event handler you can use the useLazyQuery hook which 
 // gives you a function for triggering the query
 
-export const { useSearchUserQuery, useLazySearchUserQuery } = usersApiSlice
+export const { useSearchUserQuery, useLazySearchUserQuery, useAccessOneUserQuery, useLazyAccessOneUserQuery } = usersApiSlice

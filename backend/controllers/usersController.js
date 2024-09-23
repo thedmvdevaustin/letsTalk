@@ -2,7 +2,10 @@ import User from '../models/user.js'
 import expressAsyncHandler from 'express-async-handler'
 import Chat from '../models/chat.js'
 
-// GET; /api/users/search?name
+
+//@description  Search all users
+//@route        GET; /api/users/search?name
+//@access       Protected
 const searchUsers = expressAsyncHandler( async(req, res) => {
     // Logic: see if there is a query named "name"; if there is store an
     //object that serves as an or statement taking in 2 expressions that
@@ -18,7 +21,7 @@ const searchUsers = expressAsyncHandler( async(req, res) => {
         ],
     }
     : {}
-    const results = await User.find(name).find({ _id: { $ne: req.user._id}})
+    const results = await User.find(name).find({ _id: { $ne: req.user._id}}).select("-password")
     // logic: if req.query.name is a chatName, results 
     // should give us a falsy val; putting us inside the if 
     // statement and getting the chat name info from the chat
@@ -30,7 +33,22 @@ const searchUsers = expressAsyncHandler( async(req, res) => {
     return res.status(200).json(results)
 })
 
-export { searchUsers }
+//@description  Get one user
+//@route        GET; /api/users/:id
+//@access       Protected
+const accessOneUser = expressAsyncHandler( async(req, res) => {
+    if (!req.params.id){
+        return res.status(400).json("invalid parameter")
+    }
+    const user = await User.findById(req.params.id).select("-password")
+    if (!user){
+        return res.status(400).json("User does not exist")
+    }
+    return res.status(200).json(user)
+})
+
+
+export { searchUsers, accessOneUser }
 
 /*
 1. search functionality for searching a chat/search functionality to add 

@@ -302,15 +302,7 @@ const Chat = () => {
                 <>
                     <div className="chat-messages">
                         {chatMessages && chatMessages.map(message => <div key={message._id} className={userId===message.sender ? "senderMessage" : "receiverMessage"}>
-                            {/* you will have to fix the logic for displaying a message
-                            when you add the remove user from chat, as it stands now 
-                            when you remove a user there will be no way to display
-                            the old users image next to his message because he will
-                            no longer be a chat member, you should be able to access
-                            their profilePic from the message model since it has the senders id
-                            see if you can populate that in the backend to get the users 
-                            info and access the profilePic from there instead of this logic */}
-                            <img src={chat?.members.find(member => member._id===message.sender)?.profilePic} alt="#"/>
+                            <img src={message.sender.profilePic} alt="#"/>
                             <p>{message.message}</p>
                             <span>delivered</span>
                         </div>)}
